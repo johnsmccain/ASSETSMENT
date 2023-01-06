@@ -31,7 +31,7 @@ function App() {
     domtoimage.toJpeg(preview, { quality: 0.95 })
     .then(function (dataUrl) {
       var a = document.createElement('a');
-      a.download = 'my-image-name.jpeg';
+      a.download = `${name}-${Date.now()}`;
       a.href = dataUrl;
       a.click();
     });
