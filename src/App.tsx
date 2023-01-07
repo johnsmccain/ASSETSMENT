@@ -7,8 +7,7 @@ function App() {
   const [photos, setPhotos] = useState<string[]>([]);
   const [photo, setPhoto] = useState<string>();
   const [name, setName] = useState<string>();
-  const [loading, setLoading] = useState<Boolean>();
-
+  const [loading, setLoading] = useState<boolean>(false);
   const generatePhotos = async () => {
 
     setPhoto("")
@@ -22,10 +21,11 @@ function App() {
       console.log(res.url)
       i--
     }
-    setLoading(false)
     setPhotos(temp)
+    setLoading(false)
   }
 
+console.log(loading);
   const savePhoto = async () => {
     const preview:any = document.querySelector(".preview")
     domtoimage.toJpeg(preview, { quality: 0.95 })
@@ -40,6 +40,9 @@ function App() {
   return (
     <div className="App">
       <div className="wrapper">
+        <div className={`${loading ? "overlay" : "hide" }`}>
+          <div className="overlay-spinner"></div>
+        </div>
         <div className="wrapper-box">
             {
               photo? 
@@ -56,8 +59,20 @@ function App() {
                 </div>
               : 
                 <>
-                  <p className='text init'>Oops, click to generate new photos</p>
-                  <button onClick={generatePhotos}>Generate</button>
+                  <p className='text init'>
+                    {
+                      loading ?
+                        "Loading..."
+                      :
+                        "Oops, click to generate new photos"
+                    }
+                  </p>
+                  <button 
+                    onClick={generatePhotos}
+                    disabled={loading}
+                  >
+                      {!loading ? "Generate" : "Please Wait"}
+                  </button>
                 </>
             } 
         </div>
