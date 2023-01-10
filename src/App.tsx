@@ -6,6 +6,9 @@ import two from "./assets/two.jpg";
 import three from "./assets/three.jpg";
 import four from "./assets/four.jpg";
  
+interface GenericFunction {
+  (): Promise<void>
+}
 
 function App() {
 
@@ -13,7 +16,7 @@ function App() {
   const [photo, setPhoto] = useState<string>();
   const [name, setName] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
-  const generatePhotos = async () => {
+  const generatePhotos: GenericFunction = async () => {
 
     setPhoto("")
     setLoading(true)
@@ -29,9 +32,10 @@ function App() {
     setPhotos(temp)
     // setPhotos([one, two, three, four])
     setLoading(false)
+    return
   }
 
-  const savePhoto = async () => {
+  const savePhoto: GenericFunction = async () => {
     const preview:any = document.querySelector(".preview")
     domtoimage.toJpeg(preview, { quality: 0.95 })
     .then(function (dataUrl) {
